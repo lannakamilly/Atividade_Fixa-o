@@ -34,6 +34,43 @@ movimentacoes_dia = [ # Aqui estamos fazendo a movimentação das coisas, e esta
 ("pastas", "saída", 50),
 ]
 
+
+def adicionar_produto(produto, quantidade):
+    """Adiciona um novo produto ou aumenta a quantidade de um existente."""
+    if produto in estoque_atual:
+        estoque_atual[produto] += quantidade
+        print(f"Produto '{produto}' já existia. Quantidade atualizada para {estoque_atual[produto]}")
+    else:
+        estoque_atual[produto] = quantidade
+        print(f"Produto '{produto}' adicionado ao estoque com {quantidade} unidades.")
+
+def remover_produto(produto):
+    """Remove um produto do estoque completamente."""
+    if produto in estoque_atual:
+        del estoque_atual[produto]
+        print(f"Produto '{produto}' removido do estoque.")
+    else:
+        print(f"Produto '{produto}' não existe no estoque.")
+
+
+while True:
+    print("\nDeseja gerenciar produtos manualmente? (adicionar/remover/continuar)")
+    escolha = input("Digite a ação: ").strip().lower()
+    
+    if escolha == "adicionar":
+        prod = input("Nome do produto a adicionar: ").strip()
+        qtd = int(input(f"Quantidade de '{prod}': "))
+        adicionar_produto(prod, qtd)
+    elif escolha == "remover":
+        prod = input("Nome do produto a remover: ").strip()
+        remover_produto(prod)
+    elif escolha == "continuar":
+        print("Encerrando gerenciamento manual...")
+        break
+    else:
+        print("Opção inválida! Digite 'adicionar', 'remover' ou 'continuar'.")
+
+
 for produtos, tipo, quantidade in movimentacoes_dia: # aqui nos vamos consultar o produto, o tipo da movimentação, e a quantidade, dentro das movimentações. Por isso que colocamos o IN, que significa "em tal lugar". 
     #Nesse caso não colocamos {} so os pontos e as variaveis (produto, tipo, quantidade) são criadas dentro do for
     if produtos not in estoque_atual: #Aqui estamos basicamente dizendo que se o produto não existe em estoque_atual então, ele deve ser adicionado a estoque_atual, na sessão de produtos, no primeiro lugar da fila
